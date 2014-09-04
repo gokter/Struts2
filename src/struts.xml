@@ -4,4 +4,138 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.devModel" value="true"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<constant name="struts.multipart.maxSize" value="100000000"></constant>
+	<constant name="struts.custom.i18n.resources" value="flyingh"></constant>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	
+	<package name="token" namespace="/token" extends="struts-default">
+		<action name="*" class="com.flyingh.action.TokenAction" method="{1}">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/token.jsp</result>
+			<result>/WEB-INF/jsp/msg.jsp</result>
+		</action>
+	</package>
+	
+	<package name="ognl" namespace="/ognl" extends="struts-default">
+		<action name="*" class="com.flyingh.action.OgnlAction" method="{1}">
+			<result>/ognl.jsp</result>
+		</action>
+	</package>
+	
+	
+	<package name="manage" namespace="/manage" extends="struts-default">
+		<action name="*" class="com.flyingh.action.ManageAction" method="{1}">
+			<result>/WEB-INF/jsp/msg.jsp</result>
+			<result name="input">/save.jsp</result>
+		</action>
+	</package>
+	<package name="i18n" namespace="/i18n" extends="struts-default">
+		<action name="*" class="com.flyingh.action.I18nAction" method="{1}">
+			<result name="msg">/WEB-INF/jsp/msg.jsp</result>
+		</action>
+	</package>
+	
+
+	<package name="scope" namespace="/scope" extends="struts-default">
+		<global-results>
+			<result>/WEB-INF/jsp/scope.jsp</result>
+		</global-results>
+		<action name="s" class="com.flyingh.action.ScopeAction"></action>
+	</package>
+	
+	<package name="login" namespace="/login" extends="struts-default">
+		<action name="*" class="com.flyingh.action.LoginAction" method="{1}">
+			<result name="msg">/WEB-INF/jsp/msg.jsp</result>
+		</action>
+	</package>
+
+	<package name="permission" namespace="/permission" extends="struts-default">
+		<interceptors>
+			<interceptor name="permission" class="com.flyingh.interceptor.PermissionInterceptor"></interceptor>
+			<interceptor-stack name="permissionStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="permission"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+	
+		<action name="*" class="com.flyingh.action.PermissionAction" method="{1}">
+			<result name="msg">/WEB-INF/jsp/msg.jsp</result>
+			<interceptor-ref name="permissionStack"></interceptor-ref>
+		</action>
+	</package>
+
+
+	<package name="base" extends="struts-default">
+		<global-results>
+			<result name="msg">/WEB-INF/jsp/msg.jsp</result>
+		</global-results>
+	</package>
+	<package name="flycoding" namespace="/a/b/c" extends="base">
+		<action name="helloWorld" class="com.flyingh.action.HelloWorldAction">
+			<result type="redirect">/hehe.jsp?info=${message }</result>
+		</action>
+		<action name="age" class="com.flyingh.action.HelloWorldAction">
+			<param name="age">25</param>
+			<result type="redirect">/hehe.jsp?age=${age}</result>
+		</action>
+		<action name="redirect">
+			<result type="redirect">/hehe.jsp</result>
+		</action>
+		<action name="redirectAction">
+			<result type="redirectAction">helloWorld</result>
+		</action>
+		<action name="plainText">
+			<result type="plainText">
+				<param name="location">/index.jsp</param>
+				<param name="charSet">UTF-8</param>
+			</result>
+		</action>
+		<action name="mng" class="com.flyingh.action.HelloWorldAction" method="mng">
+		</action>
+	</package>
+	<package name="a" extends="struts-default">
+		<action name="haha">
+			<result>/WEB-INF/jsp/haha.jsp</result>
+		</action>
+	</package>
+	<package name="A" namespace="/A" extends="struts-default">
+		<action name="a">
+			<result type="redirectAction">
+				<param name="namespace">/B/a/bc/def/gh/jifdsafda/</param>
+				<param name="actionName">b</param>
+			</result>
+		</action>
+	</package>
+	<package name="B" namespace="/B" extends="struts-default">
+		<action name="b">
+			<result type="redirect">http://www.baidu.com</result>
+		</action>
+	</package>
+	<package name="info" namespace="/info" extends="struts-default">
+		<action name="*" class="com.flyingh.action.InfoAction" method="{1}">
+			<result>/WEB-INF/jsp/info.jsp</result>
+		</action>
+	</package>
+	<package name="person" namespace="/person" extends="struts-default">
+		<action name="*" class="com.flyingh.action.PersonAction" method="{1}">
+			<result>/WEB-INF/jsp/person.jsp</result>
+		</action>
+	</package>
+	<package name="user" namespace="/user" extends="struts-default">
+		<action name="*" class="com.flyingh.action.UserAction" method="{1}">
+			<result>/WEB-INF/jsp/user.jsp</result>
+		</action>
+	</package>
+	<package name="upload" namespace="/upload" extends="struts-default">
+		<action name="*" class="com.flyingh.action.UploadAction" method="{1}">
+			<result>/WEB-INF/jsp/uploadSuccess.jsp</result>
+		</action>
+	</package>
+	<include file="struts-dept.xml"></include>
+	<include file="struts-emp.xml"></include>
 </struts>
